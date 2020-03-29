@@ -17,7 +17,7 @@ services:
         image: artemeesenin/simple-node-message
         container_name:  main
         ports:
-            - "3000:3000"
+            - "5000:3000"
         environment: 
             - PORT=3000
             - MESSAGE=hello world
