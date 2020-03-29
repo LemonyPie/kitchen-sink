@@ -6,25 +6,30 @@ services:
         ports: 
             - "80:80"
             - "443:443"
+        depends_on:
+            - main
+            - gitlab
         links:
             - main
-        depends_on: 
-            - main_domain
             - gitlab
 
-    main_domain:
+    main:
         image: artemeesenin/simple-node-message
+        container_name:  main
         ports:
             - "3000:3000"
-        container_name:  main
         environment: 
             - PORT=3000
             - MESSAGE=hello world
 
     gitlab:
         image: artemeesenin/simple-node-message
+        container_name:  gitlab
         ports: 
             - "4000:3000"
         environment: 
             - PORT=3000
             - MESSAGE=gitlab
+        depends_on: 
+            - proxy
+
