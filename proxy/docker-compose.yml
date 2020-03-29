@@ -1,0 +1,27 @@
+version: '3'
+
+services: 
+    proxy:
+        image: artemeesenin/proxy
+        ports: 
+            - "80:80"
+            - "443:443"
+        depends_on: 
+            - main_domain
+            - gitlab
+
+    main_domain:
+        image: artemeesenin/simple-node-message
+        ports:
+            - "3000:3000"
+        environment: 
+            - PORT=3000
+            - MESSAGE=hello world
+
+    gitlab:
+        image: artemeesenin/simple-node-message
+        ports: 
+            - "4000:3000"
+        environment: 
+            - PORT=3000
+            - MESSAGE=gitlab
