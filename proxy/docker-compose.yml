@@ -6,6 +6,8 @@ services:
         ports: 
             - "80:80"
             - "443:443"
+        links:
+            - main
         depends_on: 
             - main_domain
             - gitlab
@@ -14,6 +16,7 @@ services:
         image: artemeesenin/simple-node-message
         ports:
             - "3000:3000"
+        container_name:  main
         environment: 
             - PORT=3000
             - MESSAGE=hello world
