@@ -26,10 +26,7 @@ services:
         image: artemeesenin/simple-node-message
         container_name:  gitlab
         ports: 
-            - "4000:3000"
+            - "3000:3000"
         environment: 
             - PORT=3000
             - MESSAGE=gitlab
-        depends_on: 
-            - proxy
-
