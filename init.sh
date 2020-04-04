@@ -8,7 +8,7 @@ printf "set tabstop=4\nset shiftwidth=4\nset smarttab\nset expandtab\nset smarti
 yes "yes" | sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 git clone https://github.com/denysdovhan/spaceship-prompt.git "$ZSH_CUSTOM/themes/spaceship-prompt"
 ln -s "$ZSH_CUSTOM/themes/spaceship-prompt/spaceship.zsh-theme" "$ZSH_CUSTOM/themes/spaceship.zsh-theme"
-sed -e "s/robbyrussel/spaceship" ~/.zshrc
+sed -i 's/robbyrussell/spaceship/g' ~/.zshrc
 
 sudo apt-get update
 sudo apt-get install \
