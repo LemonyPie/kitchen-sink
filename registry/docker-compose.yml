@@ -1,0 +1,30 @@
+# At first check that required pass storage (init.sh) and secrets are created from certificates
+# Then run docker swarm init if nothing is after docker swarm ls 
+# And this script with: docker stack deploy -c docker-compose.yml registry
+# Check login with: docker login localhost
+version: '3.7'
+
+services:
+  registry:
+    restart: always
+    image: registry:2
+    ports:
+      - 443:5000
+    environment:
+      REGISTRY_HTTP_TLS_CERTIFICATE: /run/secrets/rakurs_crt
+      REGISTRY_HTTP_TLS_KEY: /run/secrets/rakurs_key
+      REGISTRY_AUTH: htpasswd
+      REGISTRY_AUTH_HTPASSWD_PATH: /auth/htpasswd
+      REGISTRY_AUTH_HTPASSWD_REALM: Registry Realm
+    volumes:
+      - /registry/data:/var/lib/registry
+      - /registry/auth:/auth
+    secrets:
+      - rakurs_crt
+      - rakurs_key
+
+secrets:
+  rakurs_crt:
+    external: true
+  rakurs_key:
+    external: true
