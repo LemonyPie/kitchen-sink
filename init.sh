@@ -1,6 +1,9 @@
+# install deps. 
+# haveged is required for gpg for fast key generation
 sudo apt-get update
-sudo apt-get install -y neovim zsh
+sudo apt-get install -y neovim zsh pass haveged rng-tools 
 
+# set up shell
 mkdir ~/.config/nvim
 printf "set runtimepath^=~/.vim runtimepath+=~/.vim/after \nlet &packpath = &runtimepath \nsource ~/.vimrc\n" > ~/.config/nvim/init.vim
 printf "set tabstop=2\nset shiftwidth=2\nset smarttab\nset expandtab\nset smartindent\n" > ~/.vimrc
@@ -10,6 +13,7 @@ git clone https://github.com/denysdovhan/spaceship-prompt.git "$ZSH_CUSTOM/theme
 ln -s "$ZSH_CUSTOM/themes/spaceship-prompt/spaceship.zsh-theme" "$ZSH_CUSTOM/themes/spaceship.zsh-theme"
 sed -i 's/robbyrussell/spaceship/g' ~/.zshrc
 
+# set up docker and docker-compose
 sudo apt-get update
 sudo apt-get install \
     apt-transport-https \
@@ -30,3 +34,10 @@ sudo ln -s /usr/local/bin/docker-compose /usr/bin/docker-compose
 sudo curl -L https://raw.githubusercontent.com/docker/compose/1.25.4/contrib/completion/bash/docker-compose -o /etc/bash_completion.d/docker-compose
 sudo docker version
 sudo docker-compose version
+
+# set up docker registry auth storage
+# use same name for gpg2 and for pass init
+wget https://github.com/docker/docker-credential-helpers/releases/download/v0.6.3/docker-credential-pass-v0.6.3-amd64.tar.gz && tar -xf docker-credential-pass-v0.6.3-amd64.tar.gz && chmod +x docker-credential-pass && sudo mv docker-credential-pass /usr/local/bin/
+gpg2 --gen-key
+pass init "rakurs"
+sed -i '0,/{/s/{/{\n\t"credsStore": "pass",/' ~/.docker/config.json
