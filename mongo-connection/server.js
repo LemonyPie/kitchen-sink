@@ -15,17 +15,24 @@ const DB_CONNECTION_PARAMETERS = {
 }
 
 http.createServer(async(req, res) => {
+    let client;
     try {
-        const client = await MongoClient.connect(url, DB_OPTIONS, DB_CONNECTION_PARAMETERS);
+        client = await MongoClient.connect(url, DB_OPTIONS, DB_CONNECTION_PARAMETERS);
         const db = client.db('data');
         const collection = db.collection('stories');
-        const items = await collection.find().toArray();
-        res.writeHead(200, { 'Content-Type': 'text/html' });
-        res.end(JSON.stringify(items));
-        await client.close();
+        try {
+            const items = await collection.find().toArray();
+            res.writeHead(200, { 'Content-Type': 'text/html' });
+            res.end(JSON.stringify(items));
+        } catch (err) {
+            res.writeHead(403);
+            res.end('Not enough permissions');
+        }
     } catch (err) {
         console.error(err);
         res.writeHead(500);
         res.end('Error occured: ', err);
+    } finally {
+        await client.close();
     }
 }).listen(PORT, () => console.log('server started on ' + PORT));
