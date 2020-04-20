@@ -4,7 +4,7 @@ sudo apt-get update
 sudo apt-get install -y neovim zsh pass haveged rng-tools 
 
 # set up shell
-mkdir ~/.config/nvim
+mkdir -p ~/.config/nvim
 printf "set runtimepath^=~/.vim runtimepath+=~/.vim/after \nlet &packpath = &runtimepath \nsource ~/.vimrc\n" > ~/.config/nvim/init.vim
 printf "set number\nset tabstop=2\nset shiftwidth=2\nset smarttab\nset expandtab\nset smartindent\n" > ~/.vimrc
 
@@ -12,6 +12,7 @@ yes "yes" | sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzs
 git clone https://github.com/denysdovhan/spaceship-prompt.git "$ZSH_CUSTOM/themes/spaceship-prompt"
 ln -s "$ZSH_CUSTOM/themes/spaceship-prompt/spaceship.zsh-theme" "$ZSH_CUSTOM/themes/spaceship.zsh-theme"
 sed -i 's/robbyrussell/spaceship/g' ~/.zshrc
+chsh -s /usr/bin/zsh
 
 # set up docker and docker-compose
 sudo apt-get update
