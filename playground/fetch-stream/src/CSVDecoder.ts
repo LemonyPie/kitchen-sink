@@ -12,11 +12,9 @@ export class CSVDecoder {
     this.partialChunk = chunks.pop()!;
     chunks.forEach(this.onChunk);
   }
-
-
 }
 
-export class CSVDecoderStream implements ReadableWritablePair {
+export class CSVDecoderStream implements GenericTransformStream {
   readable: ReadableStream;
   writable: WritableStream;
   decoder = new CSVDecoder();
@@ -34,6 +32,5 @@ export class CSVDecoderStream implements ReadableWritablePair {
         this.decoder.decode(data);
       }
     });
-
   }
 }

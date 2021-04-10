@@ -6,4 +6,8 @@ fetch('edu-scorecard.csv')
     .pipeThrough(new TextDecoderStream()))
   .then((text) => text
     .pipeThrough(new CSVDecoderStream()))
-  .then((stream) => logReadableStream('READ: ', stream));
+  .then(stream => stream.pipeTo(new WritableStream({
+    write(data) {
+      console.log(data);
+    }
+  })));
